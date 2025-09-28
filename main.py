@@ -1,17 +1,27 @@
-# This is a sample Python script.
+import pandas as pd
+import numpy as np
+import sqlite3
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+# خواندن فایل اکسل
+data = pd.read_excel("data.xls")
+# برای اینکه فایل اصلی دستنخورده باشه ازش کپی میگیریم تا تغییرات روش اعمال کنیم
+dt=data.copy()
+# ۵ ردیف اول رو چاپ میکنه
+# print(data.head(5))
 
+# حذف سطرهای دارای مقدار خالی
+dt.dropna(axis=0, how='all', inplace=True)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+# حذف سطرهای تکراری
+dt.drop_duplicates(inplace=True)
 
+# print(data.isna()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# اضافه کردن ستون جدید که نسبت profit به sales هست
+dt['Profit/Sales'] = dt['Profit'] / dt['Sales']
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-print("hello")
+# گروه بندی بر اساس کتگوری
+dt.groupby('Sub-Category')
+# print("done")
+
+dt.to_excel('dt.xlsx', index=False)
